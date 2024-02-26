@@ -1,6 +1,8 @@
 ---
+layout: post
 title: "Introducing ValueStore"
 date: 2024-02-26
+categories: ios library swift apple
 ---
 
 # Introducing Value Store: a general interface for persistence
@@ -15,13 +17,13 @@ UserDefaults are very useful and easy to use, however, they have many issues tha
 
 *UserDefaults* types say they can handle *Any* type, but this is not true. Try storing a custom struct value and see what happens:
 
-![Exception thrown when trying to save an unsupported type](images/exception.jpg)
+![Exception thrown when trying to save an unsupported type](/assets/images/exception.jpg)
 
 They can only save some types, but the compiler won’t catch these errors for you.
 
 Also, try saving a value of a type and then retrieving it with a different type. The compiler won’t help you here either:
 
-![Saving an Int and loading a String](images/types.jpg)
+![Saving an Int and loading a String](/assets/images/types.jpg)
 
 Depending on the types you might get an implicit conversion, a crash or whatever.
 
@@ -41,13 +43,13 @@ First we need to realize that we can’t have a single dictionary that stores di
 
 The solution is to introduce an interface that can load, store and remove individual values of a single type in a type safe manner:
 
-```swift
+{% highlight swift %}
 struct ValueStore<Value> {
 	var load: () throws -> Value
 	var save: (Value) throws -> Value
 	var remove: () throws -> Void
 }
-```
+{% endhighlight %}
 
 This follows the idea to use structs as more flexible interfaces compared to protocols: https://www.pointfree.co/episodes/ep33-protocol-witnesses-part-1 
 
@@ -70,12 +72,12 @@ If you ever need to migrate a value from one place to another, you can use the [
 
 We can use an enum with a String representation to store our UserDefaults keys. This way the compiler will be able to ensure that we won’t duplicate keys:
 
-```swift
+{% highlight swift %}
 enum UserDefaultsKey: String {
 	case preference1
 	case preference2
 }
-```
+{% endhighlight %}
 
 Also, if you accidentally modify one of these keys, the compiler will helpfully point you to all the code that is broken, because you changed a preference key name. And no need to worry about using a different key for loading, saving or removing your data.
 
@@ -87,23 +89,23 @@ This interface can be used to access UserDefaults, but it’s a bit limited for 
 
 First, we can make the functions asynchronous, so that we can use them for non synchronous operations:
 
-```swift
+{% highlight swift %}
 struct ValueStore<Value> {
 	var load: () async throws -> Value
 	var save: (Value) async throws -> Value
 	var remove: () async throws -> Void
 }
-```
+{% endhighlight %}
 
 Finally, in some cases we might need dynamic parameters in order to perform an operation, such as network tokens, so let’s add an Environment type parameter to allow this:
 
-```swift
+{% highlight swift %}
 struct ValueStore<Environment, Value> {
 	var load: (Environment) async throws -> Value
 	var save: (Environment, Value) async throws -> Value
 	var remove: (Environment) async throws -> Void
 }
-```
+{% endhighlight %}
 
 This is the final ValueStore interface, pretty much as it’s defined in the library. Helper functions are defined for the cases where the Environment parameter is not needed (it can be Void in this case).
 
@@ -113,36 +115,36 @@ The following is an example of how the library might be used. Of course, you can
 
 Define a struct to hold all the persisted values:
 
-```swift
+{% highlight swift %}
 struct PersistenceEnvironment {
 	var userPreference1: ValueStore<Void, String>
 	var userPreference2: ValueStore<Void, Int>
 	var networkPreference: ValueStore<NetworkEnvironment, String>
 }
-```
+{% endhighlight %}
 
 Now we should create an enum to hold all the keys to be used with UserDefaults:
 
-```swift
+{% highlight swift %}
 enum UserDefaultsKey: String {
 	case userPreference1
 	case userPreference2
 }
-```
+{% endhighlight %}
 
 This way the compiler will ensure that all keys are unique. Now we need to create a constructor that will use this key, which will use the unsafeRawUserDefaults implementation internally:
 
-```swift
+{% highlight swift %}
 extension ValueStore {
 	static func userDefaults(_ key: UserDefaultsKey) -> Self {
 		.unsafeRawUserDefaults(key.rawValue)
 	}
 }
-```
+{% endhighlight %}
 
 You can also have other implementations that store the value using an endpoint, the keychain or whatever:
 
-```swift
+{% highlight swift %}
 extension ValueStore where Environment == NetworkEnvironment {
 	static func network(_ endpoint: String) -> Self {
 		.init(
@@ -158,22 +160,21 @@ extension ValueStore where Environment == NetworkEnvironment {
 		)
 	}
 }
-```
+{% endhighlight %}
 
 Now we can create a live version of our PersistenceEnvironment:
 
-
-```swift
+{% highlight swift %}
 extension PersistenceEnvironment {
 	static var live: Self {
 		.init(
 			userPreference1: .userDefaults(.userPreference1),
 			userPreference2: .userDefaults(.userPreference2),
-			networkPreference: .network(“preference”)
+			networkPreference: .network("preference")
 		)
 	}
 }
-```
+{% endhighlight %}
 
 Finally you can use these stores to read and write your values:
 
@@ -181,7 +182,7 @@ Finally you can use these stores to read and write your values:
 let environment = PersistenceEnvironment.live
 
 var storedPreference1 = try await environment.userPreference1.load()
-storedPreference1 += “!”
+storedPreference1 += "!"
 
 try await environment.userPreference1.save(storedPreference1)
 ```
