@@ -1,8 +1,9 @@
 ---
 layout: post
-title: "Introducing ValueStore"
+title: "Introducing ValueStore 📦"
 date: 2024-02-26
 categories: ios library swift apple
+tags: ios library swift apple
 ---
 
 # Introducing Value Store: a general interface for persistence
