@@ -1,0 +1,31 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minima";
+
+.site-title {
+	background:url(/assets/images/tyris.png) 0 0 no-repeat;
+	display:block;
+	height:66px; /* your image height */
+	text-indent:-99999em;
+	width:140px; /* your image width */
+	overflow:hidden;
+}
+
+.site-header {
+	height: 70pt;
+	padding-top: 5pt;
+}
+
+.footer-heading {
+	display: none;
+}
+
+.contact-list {
+	display: none;
+}
+
+code {
+	tab-size: 3;
+}
