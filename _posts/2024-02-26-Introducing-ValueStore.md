@@ -6,7 +6,7 @@ categories: ios library swift apple
 tags: ios library swift apple
 ---
 
-# Introducing Value Store: a general interface for persistence
+# Introducing [Value Store](https://github.com/tyrissoftware/swift-valuestore): a general interface for persistence
 
 TL;DR UserDefaults has many issues, it should not be used directly. We introduce a library with a simple interface for persisting values.
 
@@ -52,7 +52,7 @@ struct ValueStore<Value> {
 }
 {% endhighlight %}
 
-This follows the idea to use structs as more flexible interfaces compared to protocols: https://www.pointfree.co/episodes/ep33-protocol-witnesses-part-1 
+This follows the idea to use structs as more flexible interfaces compared to protocols: [https://www.pointfree.co/episodes/ep33-protocol-witnesses-part-1](https://www.pointfree.co/episodes/ep33-protocol-witnesses-part-1)
 
 
 Let’s see how this solves each one of the previous issues:
@@ -188,7 +188,7 @@ storedPreference1 += "!"
 try await environment.userPreference1.save(storedPreference1)
 ```
 
-Check the documentation or the tests for a better understanding on how to use it, and all the utilities that come with ValueStore.
+Check the documentation or the tests for a better understanding on how to use it, and all the utilities that come with [Value Store](https://github.com/tyrissoftware/swift-valuestore).
 
 [UserDefaults]: https://github.com/tyrissoftware/swift-valuestore/blob/master/Documentation/UserDefaults.md#userdefaults
 [Utilities]: https://github.com/tyrissoftware/swift-valuestore/blob/master/Documentation/Utilities.md
