@@ -4,9 +4,6 @@ title: About
 permalink: /about/
 ---
 
-
-### Tyris Software
-
 Your technological Partner in the development of specialized software.
 
 AI	·	BI	·	TECH	·	TV

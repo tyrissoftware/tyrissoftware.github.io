@@ -5,4 +5,3 @@
 layout: home
 ---
 
-![Logo](/assets/images/tyris.png)
