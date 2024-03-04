@@ -109,6 +109,14 @@ struct ValueStore<Environment, Value> {
 
 This is the final ValueStore interface, pretty much as it’s defined in the library. Helper functions are defined for the cases where the Environment parameter is not needed (it can be Void in this case).
 
+## Installation
+
+Use it with swift package manager:
+
+```swift
+.package(url: "https://github.org/tyrissoftware/swift-valuestore.git", from: "0.1.3")
+```
+
 ## Usage
 
 The following is an example of how the library might be used. Of course, you can use it in other ways, but this should provide a good starting point.
