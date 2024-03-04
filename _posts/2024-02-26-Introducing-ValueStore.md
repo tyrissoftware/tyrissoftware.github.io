@@ -2,8 +2,7 @@
 layout: post
 title: "Introducing ValueStore 📦"
 date: 2024-02-26
-categories: ios library swift apple
-tags: ios library swift apple
+categories: ios library swift apple persistence
 ---
 
 # Introducing [Value Store](https://github.com/tyrissoftware/swift-valuestore): a general interface for persistence
@@ -82,7 +81,7 @@ enum UserDefaultsKey: String {
 
 Also, if you accidentally modify one of these keys, the compiler will helpfully point you to all the code that is broken, because you changed a preference key name. And no need to worry about using a different key for loading, saving or removing your data.
 
-The [Usage][#usage] section in the documentation explains this in more detail.
+The [Usage](#usage) section in the documentation explains this in more detail.
 
 ### Generalizing it
 
@@ -109,6 +108,14 @@ struct ValueStore<Environment, Value> {
 {% endhighlight %}
 
 This is the final ValueStore interface, pretty much as it’s defined in the library. Helper functions are defined for the cases where the Environment parameter is not needed (it can be Void in this case).
+
+## Installation
+
+Use it with swift package manager:
+
+```swift
+.package(url: "https://github.org/tyrissoftware/swift-valuestore.git", from: "0.1.3")
+```
 
 ## Usage
 
